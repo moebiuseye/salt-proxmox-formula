@@ -1,4 +1,4 @@
-{% from "proxmox/map.inja" import rawmap with context %}
+{% from "proxmox/map.jinja" import rawmap with context %}
 
 hosts_prefile:
     file.managed:
