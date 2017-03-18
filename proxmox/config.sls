@@ -26,3 +26,4 @@ cgroups_fstab_file:
     - device: none
     - fstype: cgroup
     - opts: defaults
+    - mount: False
