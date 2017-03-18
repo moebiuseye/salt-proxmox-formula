@@ -1,5 +1,4 @@
-{% from "proxmox/default.yml" import rawmap with context %}
-{% set rawmap = salt['pillar.get']('proxmox', rawmap) %}
+{% from "proxmox/map.inja" import rawmap with context %}
 
 hosts_prefile:
     file.managed:
