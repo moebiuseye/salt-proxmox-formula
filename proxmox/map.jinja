@@ -1,7 +1,7 @@
 {## Start with defaults from defaults.yaml ##}
 {% import_yaml 'proxmox/defaults.yml' as default_settings %}
 
-{% set oscodename_map = salt['grans.filter_by']({
+{% set oscodename_map = salt['grains.filter_by']({
     'jessie': {
         'pkgs':['proxmox-ve', 'ssh', 'postfix', 'ksm-control-daemon', 'open-iscsi', 'systemd-sysv']
     },
