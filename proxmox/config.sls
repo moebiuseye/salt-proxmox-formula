@@ -21,6 +21,8 @@ hosts_file:
 {% endif %}
 
 cgroups_fstab_file:
-    file.managed:
-        - name: /etc/fstab.d/cgroup.fstab
-        - source: salt://proxmox/files/fstab.d.cgroup
+  mount.mounted
+    - name: /sys/fs/cgroup
+    - device: none
+    - fstype: cgroup
+    - opts: defaults
