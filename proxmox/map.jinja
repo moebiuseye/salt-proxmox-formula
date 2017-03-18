@@ -1,0 +1,21 @@
+{## Start with defaults from defaults.yaml ##}
+{% import_yaml 'proxmox/defaults.yml' as default_settings %}
+
+{% set oscodename_map = salt['grans.filter_by']({
+    'jessie': {
+        'pkgs':['proxmox-ve', 'ssh', 'postfix', 'ksm-control-daemon', 'open-iscsi', 'systemd-sysv']
+    },
+    'wheezy': {
+        'pkgs':['pve-firmware', 'pve-kernel-2.6.32-26-pve', 'pve-headers-2.6.32-26-pve', 'proxmox-ve-2.6.32', 'ntp', 'ssh', 'lvm2', 'postfix', 'ksm-control-daemon', 'open-iscsi', 'vzprocps', 'bootlogd']
+    }
+}, grain='oscodename', default='jessie')
+%}
+
+{% set rawmap = salt['pillar.get'](
+    'proxmox',
+    default=default_settings,
+    merge=True
+    )
+%}
+
+{% do rawmap.update(oscodename_map %}

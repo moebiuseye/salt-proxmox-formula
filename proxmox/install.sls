@@ -1,5 +1,4 @@
-{% from "proxmox/default.yml" import rawmap with context %}
-{% set rawmap = salt['pillar.get']('proxmox', default=rawmap, merge=True) %}
+{% from "proxmox/map.inja" import rawmap with context %}
 
 {% if rawmap.preconfigure is defined and rawmap.preconfigure %}
 include:
@@ -23,20 +22,18 @@ proxmox_nosub_repo:
         - file: /etc/apt/sources.list.d/pve-nosub-repo.list
         - refresh_db: True
 
+{% if rawmap.use_enterprise %}
 proxmox_ent_repo:
     pkgrepo.managed:
-{% if rawmap.use_enterprise %}
         - enabled: True
-{% else %}
-        - disabled: True
-{% endif %}
         - humanname: Proxmox VE Enterprise Repository
         - name: deb https://enterprise.proxmox.com/debian {{salt['grains.get']('oscodename')}} pve-enterprise
         - dist: {{salt['grains.get']('oscodename')}}
         - file: /etc/apt/sources.list.d/pve-enterprise.list
         - refresh_db: True
+{% endif %}
 
-{% for pkg in ['pve-firmware', 'pve-kernel-2.6.32-26-pve', 'pve-headers-2.6.32-26-pve', 'proxmox-ve-2.6.32', 'ntp', 'ssh', 'lvm2', 'postfix', 'ksm-control-daemon', 'open-iscsi', 'vzprocps', 'bootlogd'] %}
+{% for pkg in rawmap.pkgs %}
 {{pkg ~ '_installed'}}:
     pkg.latest:
         - name: {{pkg}}
