@@ -21,7 +21,7 @@ hosts_file:
 {% endif %}
 
 cgroups_fstab_file:
-  mount.mounted
+  mount.mounted:
     - name: /sys/fs/cgroup
     - device: none
     - fstype: cgroup
