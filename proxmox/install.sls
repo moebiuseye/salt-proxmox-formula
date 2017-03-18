@@ -5,6 +5,7 @@ include:
     - proxmox.preconfig
 {% endif %}
 
+{% if salt['grains.get']('oscodename') != 'jessie' %}
 proxmox_repo:
     pkgrepo.managed:
         - humanname: Proxmox VE Repository
@@ -13,6 +14,7 @@ proxmox_repo:
         - file: /etc/apt/sources.list.d/pve-install-repo.list
         - key_url: http://download.proxmox.com/debian/key.asc
         - refresh_db: True
+{% endif %}
 
 proxmox_nosub_repo:
     pkgrepo.managed:
